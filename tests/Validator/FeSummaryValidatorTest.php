@@ -22,6 +22,9 @@ class FeSummaryValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = $this->getValidator();
         $errors = $validator->validate($summary);
 
+        if ($errors->count() > 0) {
+            var_dump($errors);
+        }
         $this->assertEquals(0, count($errors));
     }
 
@@ -41,8 +44,10 @@ class FeSummaryValidatorTest extends \PHPUnit_Framework_TestCase
         $detiail1 = new SummaryDetail();
         $detiail1->setTipoDoc('03')
             ->setSerieNro('B001-1')
-            ->setTotal(100)
+            ->setTotal(800)
             ->setEstado('1')
+            ->setClienteTipo('1')
+            ->setClienteNro('456688')
             ->setMtoOperGravadas(20.555)
             ->setMtoOperInafectas(24.4)
             ->setMtoOperExoneradas(50)

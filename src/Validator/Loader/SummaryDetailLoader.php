@@ -8,8 +8,10 @@
 
 namespace Greenter\Validator\Loader;
 
+use Greenter\Model\Summary\SummaryDetail;
 use Greenter\Validator\LoaderMetadataInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class SummaryDetailLoader implements LoaderMetadataInterface
@@ -43,5 +45,26 @@ class SummaryDetailLoader implements LoaderMetadataInterface
         $metadata->addPropertyConstraint('total', new Assert\NotBlank());
         $metadata->addPropertyConstraint('mtoIGV', new Assert\NotBlank());
         $metadata->addPropertyConstraint('mtoISC', new Assert\NotBlank());
+
+        $callback = function ($object, ExecutionContextInterface $context, $payload) {
+            /**@var $object SummaryDetail */
+            if (!($object->getTotal() > 750)) {
+                return;
+            }
+
+            if (empty($object->getClienteTipo())) {
+                $context->buildViolation('Tipo de documento del cliente requerido para ventas mayores a 750')
+                    ->atPath('clienteTipo')
+                    ->addViolation();
+            }
+
+            if (empty($object->getClienteNro())) {
+                $context->buildViolation('Numero de documento del cliente requerido para ventas mayores a 750')
+                    ->atPath('clienteNro')
+                    ->addViolation();
+            }
+        };
+
+        $metadata->addConstraint(new Assert\Callback($callback));
     }
 }
