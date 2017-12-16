@@ -18,14 +18,17 @@ class NoteLoader implements LoaderMetadataInterface
     {
         $metadata->addPropertyConstraints('tipoDoc', [
             new Assert\NotBlank(),
-            new Assert\Length([
-                'min' => 2,
-                'max' => 2,
+            new Assert\Choice([
+                'choices' => ['07', '08'],
+                'message' => 'No es un tipo de nota válido',
             ]),
         ]);
         $metadata->addPropertyConstraints('serie', [
             new Assert\NotBlank(),
-            new Assert\Length([ 'max' => 4]),
+            new Assert\Regex([
+                'pattern' => '/^[FB][A-Z0-9]{3}$/',
+                'message' => 'La serie no cumple el estandar'
+            ]),
         ]);
         $metadata->addPropertyConstraints('correlativo', [
             new Assert\NotBlank(),
@@ -33,7 +36,7 @@ class NoteLoader implements LoaderMetadataInterface
         ]);
         $metadata->addPropertyConstraints('fechaEmision', [
             new Assert\NotBlank(),
-            new Assert\Date(),
+            new Assert\DateTime(),
         ]);
         $metadata->addPropertyConstraints('tipoMoneda', [
             new Assert\NotBlank(),
@@ -65,6 +68,7 @@ class NoteLoader implements LoaderMetadataInterface
         ]);
         $metadata->addPropertyConstraint('details', new Assert\Valid());
         $metadata->addPropertyConstraint('legends', new Assert\Valid());
+        $metadata->addPropertyConstraint('guias', new Assert\Valid());
         $metadata->addPropertyConstraint('relDocs', new Assert\Valid());
         $metadata->addPropertyConstraint('perception', new Assert\Valid());
         $metadata->addPropertyConstraints('codMotivo', [

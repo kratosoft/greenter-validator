@@ -25,7 +25,10 @@ class InvoiceLoader implements LoaderMetadataInterface
         ]);
         $metadata->addPropertyConstraints('serie', [
             new Assert\NotBlank(),
-            new Assert\Length([ 'max' => 4]),
+            new Assert\Regex([
+                'pattern' => '/^[FB][A-Z0-9]{3}$/',
+                'message' => 'La serie no cumple el estandar'
+            ]),
         ]);
         $metadata->addPropertyConstraints('correlativo', [
             new Assert\NotBlank(),
@@ -33,7 +36,7 @@ class InvoiceLoader implements LoaderMetadataInterface
         ]);
         $metadata->addPropertyConstraints('fechaEmision', [
             new Assert\NotBlank(),
-            new Assert\Date(),
+            new Assert\DateTime(),
         ]);
         $metadata->addPropertyConstraints('tipoMoneda', [
             new Assert\NotBlank(),

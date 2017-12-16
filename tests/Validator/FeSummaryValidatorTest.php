@@ -8,6 +8,7 @@
 
 namespace Tests\Greenter\Validator;
 
+use Greenter\Model\Sale\Document;
 use Greenter\Model\Summary\Summary;
 use Greenter\Model\Summary\SummaryDetail;
 
@@ -39,10 +40,9 @@ class FeSummaryValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $detiail1 = new SummaryDetail();
         $detiail1->setTipoDoc('03')
-            ->setSerie('B001')
-            ->setDocInicio('1')
-            ->setDocFin('4')
+            ->setSerieNro('B001-1')
             ->setTotal(100)
+            ->setEstado('1')
             ->setMtoOperGravadas(20.555)
             ->setMtoOperInafectas(24.4)
             ->setMtoOperExoneradas(50)
@@ -53,9 +53,11 @@ class FeSummaryValidatorTest extends \PHPUnit_Framework_TestCase
 
         $detiail2 = new SummaryDetail();
         $detiail2->setTipoDoc('07')
-            ->setSerie('BB01')
-            ->setDocInicio('4')
-            ->setDocFin('8')
+            ->setSerieNro('B301-4')
+            ->setEstado('1')
+            ->setDocReferencia((new Document())
+            ->setTipoDoc('03')
+            ->setNroDoc('B001-2'))
             ->setTotal(200)
             ->setMtoOperGravadas(40)
             ->setMtoOperExoneradas(30)

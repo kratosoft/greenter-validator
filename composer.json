@@ -13,7 +13,7 @@
     "type": "library",
     "require": {
 		"php": ">=5.5.9",
-        "greenter/core": "^1.0",
+        "greenter/core": "dev-ubl21",
         "symfony/validator": "^3.3"
     },
 	"require-dev": {
