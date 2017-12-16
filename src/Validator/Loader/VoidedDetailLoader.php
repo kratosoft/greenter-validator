@@ -25,7 +25,10 @@ class VoidedDetailLoader implements LoaderMetadataInterface
         ]);
         $metadata->addPropertyConstraints('serie', [
             new Assert\NotBlank(),
-            new Assert\Regex(['pattern' => '/^[FBRP][A-Z0-9]{3}/'])
+            new Assert\Regex([
+                'pattern' => '/^[FBRP][A-Z0-9]{3}$/',
+                'message' => 'La serie no cumple con el estandar'
+            ])
         ]);
         $metadata->addPropertyConstraints('correlativo', [
             new Assert\NotBlank(),

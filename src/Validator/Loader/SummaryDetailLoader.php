@@ -18,26 +18,28 @@ class SummaryDetailLoader implements LoaderMetadataInterface
     {
         $metadata->addPropertyConstraints('tipoDoc', [
             new Assert\NotBlank(),
-            new Assert\Length([
-                'min' => 2,
-                'max' => 2,
+            new Assert\Choice([
+                'choices' => ['03', '07', '08']
             ]),
         ]);
-        $metadata->addPropertyConstraints('serie', [
+        $metadata->addPropertyConstraints('serieNro', [
             new Assert\NotBlank(),
-            new Assert\Length([
-                'min' => 4,
-                'max' => 4,
+            new Assert\Regex([
+                'pattern' => '/^[B][A-Z0-9]{3}-[0-9]{1,8}$/',
+                'message' => 'La serie no cumple el formato BXXX',
             ]),
         ]);
-        $metadata->addPropertyConstraints('docInicio', [
-            new Assert\NotBlank(),
-            new Assert\Length(['max' => 8]),
+        $metadata->addPropertyConstraints('clienteTipo', [
+            new Assert\Length(['max' => 1]),
         ]);
-        $metadata->addPropertyConstraints('docFin', [
-            new Assert\NotBlank(),
-            new Assert\Length(['max' => 8]),
+        $metadata->addPropertyConstraints('clienteNro', [
+            new Assert\Length(['max' => 20]),
         ]);
+        $metadata->addPropertyConstraints('estado', [
+            new Assert\NotBlank(),
+            new Assert\Length(['max' => 1]),
+        ]);
+        $metadata->addPropertyConstraint('docReferencia', new Assert\Valid());
         $metadata->addPropertyConstraint('total', new Assert\NotBlank());
         $metadata->addPropertyConstraint('mtoIGV', new Assert\NotBlank());
         $metadata->addPropertyConstraint('mtoISC', new Assert\NotBlank());
